@@ -31,6 +31,21 @@ class Task(models.Model):
 
 
 
+class SubTask(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    task = models.ForeignKey('Task', on_delete=models.PROTECT)
+    status = models.CharField(
+        max_length=30,
+        choices=STATUSES,
+        default='NEW'
+    )
+    deadline = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=100)
 
 
 
