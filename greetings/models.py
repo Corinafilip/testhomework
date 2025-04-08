@@ -10,7 +10,7 @@ class Task(models.Model):
     ]
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    categories = models.ManyToManyField('Category', related_name="tasks", help_text="Task categories")
+    #categories = models.ManyToManyField('Category', related_name="tasks", help_text="Task categories")
     status = models.CharField(
         max_length=30,
         choices=STATUSES,
@@ -25,15 +25,14 @@ class Task(models.Model):
 
 class SubTask(models.Model):
     STATUSES = [
-        ('NEW', 'NEW'),
-        ('IN PROGRESS', 'IN PROGRESS'),
-        ('PENDING', 'PENDING'),
-        ('BLOCKED', 'BLOCKED'),
-        ('DONE', 'DONE'),
+        ('10%', '10%'),
+        ('20%', '20%'),
+        ('50%', '50%'),
+        ('80%', '80%'),
+        ('100%', '100%'),
     ]
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    task = models.ForeignKey('Task', on_delete=models.PROTECT)
     status = models.CharField(
         max_length=30,
         choices=STATUSES,
