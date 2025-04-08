@@ -10,7 +10,7 @@ class Task(models.Model):
     ]
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    categories = models.ManyToManyField('Category', related_name="tasks", help_text="Task categories")
+    #categories = models.ManyToManyField('Category', related_name="tasks", help_text="Task categories")
     status = models.CharField(
         max_length=30,
         choices=STATUSES,
@@ -68,9 +68,9 @@ class Category(models.Model):
 
     class Meta:
         db_table = 'task_manager_category'
-        ordering = ['-created_at']
+        #ordering = ['-created_at']
         verbose_name = 'Task'
-        unique_together = ('title', 'task')
+        #unique_together = ('title', 'task')
 
 
 

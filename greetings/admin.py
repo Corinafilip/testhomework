@@ -22,9 +22,8 @@ class SubTaskAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('title', 'task')
+    list_display = ('title', )
     search_fields = ('title', )
     list_filter = ('task',)
-    ordering = ('task',)
     fields = ('title', 'task', )
     list_per_page = 5
