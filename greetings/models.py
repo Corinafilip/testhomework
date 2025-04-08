@@ -20,7 +20,14 @@ class Task(models.Model):
     resolved_at = models.DateTimeField()
     deadline = models.DateTimeField(null=True, blank=True)
     def __str__(self):
-        return self.title
+        return f"{self.title} is our task"
+
+    class Meta:
+        db_table = 'task_manager_task'
+        ordering = ['-created_at']
+        verbose_name = 'Task'
+        unique_together = ('title', 'deadline')
+
 
 
 class SubTask(models.Model):
@@ -40,8 +47,17 @@ class SubTask(models.Model):
     )
     deadline = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
-        return self.title
+        return f"{self.title} is our subtask"
+
+    class Meta:
+        db_table = 'task_manager_subtask'
+        ordering = ['-created_at']
+        verbose_name = 'SubTask'
+        unique_together = ('title', 'deadline')
+
+
 
 
 class Category(models.Model):
@@ -49,6 +65,12 @@ class Category(models.Model):
     task = models.ManyToManyField('Task', related_name="category", help_text="category")
     def __str__(self):
         return self.title
+
+    class Meta:
+        db_table = 'task_manager_category'
+        ordering = ['-created_at']
+        verbose_name = 'Task'
+        unique_together = ('title', 'task')
 
 
 
