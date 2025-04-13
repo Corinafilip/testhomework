@@ -40,3 +40,9 @@ Task.objects.filter(title="Prepare presentation").update(status="IN PROGRESS")
 SubTask.objects.filter(title="Gather Information").update(deadline=timezone.now() - datetime.timedelta(days=2))
 
 SubTask.objects.filter(title="Create Slides").update(title="Create and format presentation slides")
+
+#delete
+
+delete_task_prepare_presentation = Task.objects.get(title="Prepare presentation")
+delete_task_prepare_presentation.delete()
+
