@@ -21,7 +21,7 @@ we_create_new_task = Task.objects.create(
 we_create_bulk_subtask = SubTask.objects.bulk_create([
 
     SubTask(title="Gather Information", description="Find necessary info for the presentation", status="NEW", deadline=timezone.now() + datetime.timedelta(days=2)),
-    SubTask(title="Gather Information", description="Create presentation slides", status="NEW", deadline=timezone.now() + datetime.timedelta(days=1))
+    SubTask(title="Create Slides", description="Create presentation slides", status="NEW", deadline=timezone.now() + datetime.timedelta(days=1))
 ])
 
 #select
@@ -33,3 +33,10 @@ select_subtask_done_but_expired = SubTask.objects.filter(
 
 )
 
+#change
+
+Task.objects.filter(title="Prepare presentation").update(status="IN PROGRESS")
+
+SubTask.objects.filter(title="Gather Information").update(deadline=timezone.now() - datetime.timedelta(days=2))
+
+SubTask.objects.filter(title="Create Slides").update(title="Create and format presentation slides")
