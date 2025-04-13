@@ -2,6 +2,7 @@ import os
 import django
 from django.utils import timezone
 import datetime
+from django.db.models import Q
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_config.settings')
 django.setup()
@@ -22,3 +23,13 @@ we_create_bulk_subtask = SubTask.objects.bulk_create([
     SubTask(title="Gather Information", description="Find necessary info for the presentation", status="NEW", deadline=timezone.now() + datetime.timedelta(days=2)),
     SubTask(title="Gather Information", description="Create presentation slides", status="NEW", deadline=timezone.now() + datetime.timedelta(days=1))
 ])
+
+#select
+
+select_new_tasks = Task.objects.filter(status="NEW")
+
+select_subtask_done_but_expired = SubTask.objects.filter(
+    Q(status="DONE") & Q(deadline__lt=timezone.now())
+
+)
+
