@@ -46,3 +46,9 @@ SubTask.objects.filter(title="Create Slides").update(title="Create and format pr
 delete_task_prepare_presentation = Task.objects.get(title="Prepare presentation")
 delete_task_prepare_presentation.delete()
 
+#delete subtask
+delete_subtask1 = SubTask.objects.get(title="Gather Information")
+delete_subtask2 = SubTask.objects.get(title="Create and format presentation slides")
+
+delete_subtask1.delete()
+delete_subtask2.delete()
