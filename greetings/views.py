@@ -8,8 +8,9 @@ from rest_framework.request import Request
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from serializers.task_serializer import TaskCreateSerializer
+from serializers.task_serializer import TaskCreateSerializer, TaskListSerializer, TaskDetailSerializer
 from models import Task
+
 
 
 
@@ -33,3 +34,26 @@ def create_task(request: Request):
             data=serializer.errors,
             status=400
         )
+
+
+
+@api_view(['GET'])
+def list_of_tasks(request) -> Response:
+   tasks = Task.objects.all()
+
+   serializer = TaskListSerializer(tasks, many=True)
+   return Response(
+       data=serializer.data,
+       status=200
+   )
+
+@api_view(['GET'])
+def get_task_detail(request, book_id: int) -> Response:
+    try:
+        task = Task.objects.get(id=task_id)
+    except Task.DoesNotExist:
+        return Response(
+            data={"message": "Task not found"},
+            status=404
+        )
+

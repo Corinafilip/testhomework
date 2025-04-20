@@ -69,4 +69,6 @@ task_serializer = TaskCreateSerializer(data=data)
 
 #task_serializer.is_valid()
 
-print(task_serializer.errors)
+#print(task_serializer.errors)
+
+

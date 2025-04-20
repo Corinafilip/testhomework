@@ -19,15 +19,27 @@ class TaskCreateSerializer(serializers.ModelSerializer):
 
 
 
+class TaskListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ('title', 'description', 'status', 'deadline')
 
 
-#Создайте эндпоинт для создания новой задачи.
-# Задача должна быть создана с полями title, description, status, и deadline.
+class TaskDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Task
+        fields = "__all__"
+
+#2: Эндпоинты для получения списка задач и конкретной задачи по её ID
+#Создайте два новых эндпоинта для:
+
+#Получения списка задач
+
+#П#олучения конкретной задачи по её уникальному ID
 
 #Шаги для выполнения:
 
-#Определите сериализатор для модели Task.
+#Создайте представления для получения списка задач и конкретной задачи.
 
-#Создайте представление для создания задачи.
-
-#Создайте маршрут для обращения к представлению.#
+#Создайте маршруты для обращения к представлениям.
