@@ -44,7 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+
     'greetings.apps.GreetingsConfig',
+
+
 
 ]
 
@@ -59,6 +63,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'TESTHOMEWORK.urls'
+
+
 
 TEMPLATES = [
     {

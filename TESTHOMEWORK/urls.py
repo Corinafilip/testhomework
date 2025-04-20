@@ -17,10 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+
+from greetings.serializers.task_serializer import TaskCreateSerializer
 from greetings.views import greetings
+from greetings.views import create_task
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('greet/', greetings),
+    path('task/create/', create_task),
 
 ]

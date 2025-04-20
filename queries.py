@@ -3,6 +3,9 @@ import django
 from django.utils import timezone
 import datetime
 from django.db.models import Q
+from rest_framework import status
+
+from greetings.serializers import TaskCreateSerializer
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_config.settings')
 django.setup()
@@ -52,3 +55,18 @@ delete_subtask2 = SubTask.objects.get(title="Create and format presentation slid
 
 delete_subtask1.delete()
 delete_subtask2.delete()
+
+#test our serializer
+
+data = {
+    "title": "Prepare presentation",
+    "description": "Prepare materials and slides for the presentation",
+    "status": "NEW",
+    #"deadline": timezone.now().date(),
+    }
+
+task_serializer = TaskCreateSerializer(data=data)
+
+#task_serializer.is_valid()
+
+print(task_serializer.errors)

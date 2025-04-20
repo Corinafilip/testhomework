@@ -11,13 +11,14 @@ class Task(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     #categories = models.ManyToManyField('Category', related_name="tasks", help_text="Task categories")
+    #subtask = models.ForeignKey(SubTask, on_delete=models.PROTECT, null=True, blank=True)
     status = models.CharField(
         max_length=30,
         choices=STATUSES,
         default='NEW'
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    resolved_at = models.DateTimeField()
+    resolved_at = models.DateTimeField(null=True, blank=True)
     deadline = models.DateTimeField(null=True, blank=True)
     def __str__(self):
         return f"{self.title} is our task"
@@ -25,7 +26,7 @@ class Task(models.Model):
     class Meta:
         db_table = 'task_manager_task'
         ordering = ['-created_at']
-        verbose_name = 'Task'
+        verbose_name = 'Our Task'
         unique_together = ('title', 'deadline')
 
 
@@ -40,6 +41,7 @@ class SubTask(models.Model):
     ]
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
+    task = models.ForeignKey(Task, on_delete=models.PROTECT)
     status = models.CharField(
         max_length=30,
         choices=STATUSES,
