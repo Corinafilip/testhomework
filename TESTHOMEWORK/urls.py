@@ -20,14 +20,23 @@ from django.urls import path
 
 from greetings.serializers.task_serializer import TaskCreateSerializer
 from greetings.views import greetings
-from greetings.views import create_task,  list_of_tasks, get_task_detail
+from greetings.views import create_task,  list_of_tasks, get_task_detail, new_tasks, in_progress_tasks, pending_tasks, blocked_tasks, done_tasks, overdue_tasks
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('greet/', greetings),
     path('task/create/', create_task),
-    path('task/create/', list_of_tasks),
-    path('task/create/', get_task_detail),
+    path('task/list_of_tasks/', list_of_tasks),
+    path('task/get_task_detail/', get_task_detail),
+    path('task/new_tasks/', new_tasks),
+    path('task/in_progress_tasks/',in_progress_tasks),
+    path('task/pending_tasks/', pending_tasks),
+    path('task/blocked_tasks/',blocked_tasks),
+    path('task/done_tasks/',done_tasks),
+    path('tasks/overdue/', overdue_tasks),
+
+
+
 
 ]

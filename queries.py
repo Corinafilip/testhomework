@@ -4,6 +4,7 @@ from django.utils import timezone
 import datetime
 from django.db.models import Q
 from rest_framework import status
+from django.db.models import Count, Avg
 
 from greetings.serializers import TaskCreateSerializer
 
@@ -70,5 +71,24 @@ task_serializer = TaskCreateSerializer(data=data)
 #task_serializer.is_valid()
 
 #print(task_serializer.errors)
+
+
+count_total_tasks = Task.objects.aggregate(
+    total_tasks=Count("id"),
+)
+print(count_total_tasks)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

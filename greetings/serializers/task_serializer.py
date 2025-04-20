@@ -31,15 +31,53 @@ class TaskDetailSerializer(serializers.ModelSerializer):
         model = Task
         fields = "__all__"
 
-#2: Эндпоинты для получения списка задач и конкретной задачи по её ID
-#Создайте два новых эндпоинта для:
 
-#Получения списка задач
 
-#П#олучения конкретной задачи по её уникальному ID
+
+
+class TaskNewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+class TaskInProgressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+class TaskPendingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+class TaskBlockedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+class TaskDoneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+
+class TaskOverdueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+
+#3 aggregate
+#Создайте эндпоинт для получения статистики задач, таких как общее количество задач, количество задач по каждому статусу и количество просроченных задач.
 
 #Шаги для выполнения:
 
-#Создайте представления для получения списка задач и конкретной задачи.
+#Определите представление для агрегирования данных о задачах.
 
-#Создайте маршруты для обращения к представлениям.
+#Создайте маршрут для обращения к представлению.
+
+#Оформите ваш ответ следующим образом:
+
+#Код эндпоинтов: Вставьте весь код представлений и маршрутов.
+
+#Скриншоты ручного тестирования: Приложите скриншоты консоли или Postman, подтверждающие успешное выполнение запросов для каждого эндпои
