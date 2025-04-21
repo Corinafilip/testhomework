@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from greetings.views import *
 
 
 from greetings.serializers.task_serializer import TaskCreateSerializer
@@ -35,6 +36,8 @@ urlpatterns = [
     path('task/blocked_tasks/',blocked_tasks),
     path('task/done_tasks/',done_tasks),
     path('tasks/overdue/', overdue_tasks),
+    path('subtask', SubTaskListCreateView.as_view(), name='subtask-list-create'),
+    path('subtask/<int:pk>/', SubTaskDetailUpdateDeleteView.as_view(), name='subtask-detail-update'),
 
 
 
