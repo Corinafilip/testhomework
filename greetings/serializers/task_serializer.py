@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from greetings.models import Task
+from sub_task_serializer import  SubTaskSerializer
 
 
 class TaskCreateSerializer(serializers.ModelSerializer):
@@ -13,9 +14,16 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     )
     deadline = serializers.DateField()
 
+    our_sub_task_in_create = serializers.CharField(
+        max_length=100,
+        required=False
+
+    )
+
+
     class Meta:
         model = None
-        fields = ('title', 'description', 'status', 'deadline')
+        fields = ('title', 'description', 'status', 'deadline', 'our_sub_task')
 
 
 
@@ -24,14 +32,21 @@ class TaskListSerializer(serializers.ModelSerializer):
         model = Task
         fields = ('title', 'description', 'status', 'deadline')
 
+# ZADANIE 3
 
 class TaskDetailSerializer(serializers.ModelSerializer):
+    our_sub_task = SubTaskSerializer()
+    title = serializers.CharField(max_length=100)
+    description = serializers.CharField(max_length=500)
+    status = serializers.CharField()
+    deadline = serializers.DateField()
+    created_at = serializers.DateTimeField()
+    resolved_at = serializers.DateTimeField()
+
 
     class Meta:
         model = Task
-        fields = "__all__"
-
-
+        fields = '__all__'
 
 
 
@@ -67,17 +82,3 @@ class TaskOverdueSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-#3 aggregate
-#Создайте эндпоинт для получения статистики задач, таких как общее количество задач, количество задач по каждому статусу и количество просроченных задач.
-
-#Шаги для выполнения:
-
-#Определите представление для агрегирования данных о задачах.
-
-#Создайте маршрут для обращения к представлению.
-
-#Оформите ваш ответ следующим образом:
-
-#Код эндпоинтов: Вставьте весь код представлений и маршрутов.
-
-#Скриншоты ручного тестирования: Приложите скриншоты консоли или Postman, подтверждающие успешное выполнение запросов для каждого эндпои
