@@ -15,7 +15,7 @@ from models import Task, SubTask
 from django.utils.timezone import now
 
 from rest_framework.views import APIView
-
+from django.db.models import Count
 
 def greetings(request):
     name = "Corina"
@@ -155,3 +155,16 @@ def overdue_tasks(request):
     serializer = TaskOverdueSerializer(tasks, many=True)
     return Response(serializer.data)
 
+
+
+
+
+@api_view(['GET'])
+def task_status_summary(request):
+    status_counts = Task.objects.values('status').annotate(count=Count('id')).order_by('status')
+
+    result = {status['status']: status['count'] for status in status_counts}
+
+    return Response({
+        'status_summary': result,
+    })
