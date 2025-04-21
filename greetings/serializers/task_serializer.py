@@ -1,3 +1,5 @@
+from datetime import timezone
+
 from rest_framework import serializers
 
 from greetings.models import Task
@@ -13,6 +15,13 @@ class TaskCreateSerializer(serializers.ModelSerializer):
         default='NEW'
     )
     deadline = serializers.DateField()
+
+    # ZADANIE 4
+
+    def validate_deadline(self, value):
+        if value > timezone.now():
+            raise serializers.ValidationError('Deadline cannot be in the future')
+        return value
 
     our_sub_task_in_create = serializers.CharField(
         max_length=100,
