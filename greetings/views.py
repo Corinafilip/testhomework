@@ -17,6 +17,7 @@ import calendar
 
 from rest_framework.views import APIView
 from django.db.models import Count
+from rest_framework.pagination import PageNumberPagination
 
 def greetings(request):
     name = "Corina"
@@ -96,6 +97,22 @@ class TaskByWeekdayView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# Zadanie 14 -2
+class SubTaskPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 5
+
+# Vlad! Could you write me please if i need to make a new class ubTaskListView(APIView)
+# or better add
+# this piece of code to class  SubTaskListCreateView(APIView)?
+# thank you in advance
+class SubTaskListView(APIView):
+    serializer_class = TaskListSerializer
+    pagination_class = SubTaskPagination
+
+    def get_queryset(self):
+        return SubTask.objects.all().order_by('-created_at')
 
 @api_view(['POST'])
 def create_task(request: Request):
