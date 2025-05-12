@@ -13,6 +13,7 @@ from serializers.task_serializer import TaskCreateSerializer, TaskListSerializer
 from models import Task, SubTask
 
 from django.utils.timezone import now
+import calendar
 
 from rest_framework.views import APIView
 from django.db.models import Count
@@ -71,6 +72,28 @@ class SubTaskDetailUpdateDeleteView(APIView):
 
 
 
+#Zadanie 14
+class TaskByWeekdayView(APIView):
+    def get(self, request):
+        weekday_param = request.query_params.get('day', None)
+
+        if weekday_param:
+            weekday_param = weekday_param.strip().capitalize()
+
+            if weekday_param not in list(calendar.day_name):
+                return Response(
+                    {"error": "please write day names like Monday, Tuesday, etc."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Find tasks whose deadline falls on this weekday
+            tasks = Task.objects.all()
+            tasks = [task for task in tasks if task.deadline.strftime("%A") == weekday_param]
+        else:
+            tasks = Task.objects.all()
+
+        serializer = TaskListSerializer(tasks, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 

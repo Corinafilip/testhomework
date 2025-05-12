@@ -38,7 +38,7 @@ urlpatterns = [
     path('tasks/overdue/', overdue_tasks),
     path('subtask', SubTaskListCreateView.as_view(), name='subtask-list-create'),
     path('subtask/<int:pk>/', SubTaskDetailUpdateDeleteView.as_view(), name='subtask-detail-update'),
-
+    path('tasks/by-weekday/', TaskByWeekdayView.as_view(), name='tasks-by-weekday'),
 
 
 
