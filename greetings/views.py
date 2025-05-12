@@ -33,19 +33,37 @@ def greetings(request):
 
 # ZADANIE 5
 
-class SubTaskListCreateView(APIView):
-    def get(self, request):
-        subtasks = SubTask.objects.all()
-        serializer = SubTaskSerializer(subtasks, many=True)
-        return Response(serializer.data)
+#class SubTaskListCreateView(APIView):
+#    def get(self, request):
+#        subtasks = SubTask.objects.all()
+#        serializer = SubTaskSerializer(subtasks, many=True)
+#        return Response(serializer.data)
 
-    def post(self, request):
-        serializer = SubTaskSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#    def post(self, request):
+#        serializer = SubTaskSerializer(data=request.data)
+#        if serializer.is_valid():
+#            serializer.save()
+#            return Response(serializer.data, status=status.HTTP_201_CREATED)
+#        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+# Zadanie 15-2
+class SubTaskListCreateView(ListCreateAPIView):
+    queryset = SubTask.objects.all()
+    serializer_class = SubTaskSerializer
+
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['status', 'deadline']
+    search_fields = ['title', 'description']
+    ordering_fields = ['created_at']
+    ordering = ['-created_at']
+
+
+class SubTaskDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = SubTask.objects.all()
+    serializer_class = SubTaskSerializer
+    lookup_field = 'pk'
 
 class SubTaskDetailUpdateDeleteView(APIView):
     def get(self, request, pk):

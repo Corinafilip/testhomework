@@ -39,10 +39,13 @@ urlpatterns = [
     path('subtask', SubTaskListCreateView.as_view(), name='subtask-list-create'),
     path('subtask/<int:pk>/', SubTaskDetailUpdateDeleteView.as_view(), name='subtask-detail-update'),
     path('tasks/by-weekday/', TaskByWeekdayView.as_view(), name='tasks-by-weekday'),
-    path('subtasks/', SubTaskListView.as_view(), name='subtask-list'),
+
+    #path('subtasks/', SubTaskListView.as_view(), name='subtask-list'),
     path('subtasks/filter/', FilteredSubTaskListView.as_view(), name='filtered-subtask-list'),
     path('tasks/', TaskListCreateView.as_view(), name='task-list-create'),
     path('tasks/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),
+    path('subtasks/', SubTaskListCreateView.as_view(), name='subtask-list-create'),
+    path('subtasks/<int:pk>/', SubTaskDetailView.as_view(), name='subtask-detail'),
 
 
 
