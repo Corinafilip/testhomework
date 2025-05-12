@@ -41,7 +41,7 @@ class SubTask(models.Model):
     ]
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    task = models.ForeignKey(Task, on_delete=models.PROTECT)
+    task = models.ForeignKey(Task, on_delete=models.PROTECT, related_name="subtasks")
     status = models.CharField(
         max_length=30,
         choices=STATUSES,

@@ -40,6 +40,7 @@ urlpatterns = [
     path('subtask/<int:pk>/', SubTaskDetailUpdateDeleteView.as_view(), name='subtask-detail-update'),
     path('tasks/by-weekday/', TaskByWeekdayView.as_view(), name='tasks-by-weekday'),
     path('subtasks/', SubTaskListView.as_view(), name='subtask-list'),
+    path('subtasks/filter/', FilteredSubTaskListView.as_view(), name='filtered-subtask-list'),
 
 
 
