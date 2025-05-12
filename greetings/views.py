@@ -18,8 +18,13 @@ import calendar
 from rest_framework.views import APIView
 from django.db.models import Count
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django.db.models import Q
+from rest_framework.filters import SearchFilter, OrderingFilter
+
+from django_filters.rest_framework import DjangoFilterBackend
+
+
 
 def greetings(request):
     name = "Corina"
@@ -136,6 +141,25 @@ class FilteredSubTaskListView(ListAPIView):
             queryset = queryset.filter(status__iexact=subtask_status)
 
         return queryset
+
+
+
+# zadanie 15 -1
+class TaskListCreateView(ListCreateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskCreateSerializer
+
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['status', 'deadline']
+    search_fields = ['title', 'description']
+    ordering_fields = ['created_at']
+    ordering = ['-created_at']
+
+
+class TaskDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskDetailSerializer
+    lookup_field = 'pk'
 
 @api_view(['POST'])
 def create_task(request: Request):
