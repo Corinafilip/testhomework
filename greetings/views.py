@@ -6,8 +6,8 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from rest_framework.decorators import api_view
-from rest_framework import status
+from rest_framework.decorators import api_view, action
+from rest_framework import status, viewsets
 
 from serializers.task_serializer import TaskCreateSerializer, TaskListSerializer, TaskDetailSerializer, TaskNewSerializer, TaskInProgressSerializer, TaskPendingSerializer, TaskBlockedSerializer, TaskDoneSerializer, TaskOverdueSerializer, SubTaskSerializer
 from models import Task, SubTask
@@ -24,7 +24,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-
+from models import Category
+from serializers.category_serializer import CategorySerializer
 
 def greetings(request):
     name = "Corina"
@@ -273,3 +274,17 @@ def task_status_summary(request):
     return Response({
         'status_summary': result,
     })
+
+# Zadanie 16 -3
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+    def perform_destroy(self, instance):
+        instance.delete()  # we use soft delete
+
+    @action(detail=True, methods=['get'])
+    def count_tasks(self, request, pk=None):
+        category = self.get_object()
+        task_count = category.task.count()
+        return Response({'category': category.title, 'task_count': task_count})

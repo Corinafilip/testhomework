@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from greetings.models import Category
+from models import Category
 
 
 class CategoryCreateSerializer(serializers.ModelSerializer):
@@ -26,4 +27,10 @@ class CategoryCreateSerializer(serializers.ModelSerializer):
         instance.save()
 
         return super().update(instance, validated_data)
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'title', 'task', 'is_deleted', 'deleted_at']
+        read_only_fields = ['is_deleted', 'deleted_at']
 
