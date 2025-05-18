@@ -20,3 +20,6 @@ class SubTaskCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = None
         fields = ('title', 'description','deadline', 'created_at')
+
+
+
