@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Task(models.Model):
     STATUSES = [
@@ -65,6 +66,19 @@ class SubTask(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=100)
     task = models.ManyToManyField('Task', related_name="category", help_text="category")
+
+# Zadanie 16 soft delete
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, blank=True)
+
+    objects = CategoryManager()
+    all_objects = models.Manager()
+
+    def delete(self, *args, **kwargs):
+        self.is_deleted = True
+        self.deleted_at = timezone.now()
+        self.save()
+
     def __str__(self):
         return self.title
 
@@ -74,7 +88,10 @@ class Category(models.Model):
         verbose_name = 'Task'
         #unique_together = ('title', 'task')
 
-
+class CategoryManager(models.Manager):
+    def get_queryset(self):
+        # we filter for not delete
+        return super().get_queryset().filter(is_deleted=False)
 
 
 
