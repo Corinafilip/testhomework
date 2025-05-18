@@ -59,6 +59,7 @@ class SubTaskListCreateView(ListCreateAPIView):
     queryset = SubTask.objects.all()
     serializer_class = SubTaskSerializer
     permission_classes = [IsAuthenticated, CanGetSubTasksPermission]
+    #pagination_class = SubTaskPagination
 
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
