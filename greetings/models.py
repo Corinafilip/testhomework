@@ -1,6 +1,13 @@
 from django.db import models
 from django.utils import timezone
 
+
+class CategoryManager(models.Manager):
+    def get_queryset(self):
+        # we filter for not delete
+        return super().get_queryset().filter(is_deleted=False)
+
+
 class Task(models.Model):
     STATUSES = [
         ('NEW', 'NEW'),
@@ -29,6 +36,9 @@ class Task(models.Model):
         ordering = ['-created_at']
         verbose_name = 'Our Task'
         unique_together = ('title', 'deadline')
+        permissions = [
+            ('can_get_tasks', 'Can get tasks'),
+        ]
 
 
 
@@ -59,6 +69,9 @@ class SubTask(models.Model):
         ordering = ['-created_at']
         verbose_name = 'SubTask'
         unique_together = ('title', 'deadline')
+        permissions = [
+            ('can_get_subtasks', 'Can get subtasks'),
+        ]
 
 
 
@@ -88,10 +101,7 @@ class Category(models.Model):
         verbose_name = 'Task'
         #unique_together = ('title', 'task')
 
-class CategoryManager(models.Manager):
-    def get_queryset(self):
-        # we filter for not delete
-        return super().get_queryset().filter(is_deleted=False)
+
 
 
 

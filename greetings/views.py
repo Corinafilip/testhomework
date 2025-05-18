@@ -26,6 +26,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from models import Category
 from serializers.category_serializer import CategorySerializer
+from rest_framework.permissions import IsAuthenticated
+from permissions.owner_permission import IsOwner
+from permissions.permissions import CanGetTasksPermission, CanGetSubTasksPermission
+from rest_framework.permissions import IsAuthenticated
+
 
 def greetings(request):
     name = "Corina"
@@ -53,6 +58,8 @@ def greetings(request):
 class SubTaskListCreateView(ListCreateAPIView):
     queryset = SubTask.objects.all()
     serializer_class = SubTaskSerializer
+    permission_classes = [IsAuthenticated, CanGetSubTasksPermission]
+
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['status', 'deadline']
@@ -173,6 +180,7 @@ class TaskListCreateView(ListCreateAPIView):
     search_fields = ['title', 'description']
     ordering_fields = ['created_at']
     ordering = ['-created_at']
+    permission_classes = [IsAuthenticated, CanGetTasksPermission]
 
 
 class TaskDetailView(RetrieveUpdateDestroyAPIView):
@@ -288,3 +296,23 @@ class CategoryViewSet(viewsets.ModelViewSet):
         category = self.get_object()
         task_count = category.task.count()
         return Response({'category': category.title, 'task_count': task_count})
+
+
+# Zadanie 18
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def __init__(self, **kwargs: Any):
+        super().__init__(kwargs)
+        self.action = None
+
+    def get(self, request):
+        return Response({"message": "Вы авторизованы"})
+
+    def get_permissions(self):
+        if self.action in ['update', 'destroy']:
+            return [IsAuthenticated(), IsOwner()]
+        return [IsAuthenticated()]
+
+
+
