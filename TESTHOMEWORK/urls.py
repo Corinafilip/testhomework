@@ -46,7 +46,10 @@ urlpatterns = [
     path('tasks/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),
     path('subtasks/', SubTaskListCreateView.as_view(), name='subtask-list-create'),
     path('subtasks/<int:pk>/', SubTaskDetailView.as_view(), name='subtask-detail'),
-
-
-
+    path('categories/', CategoryViewSet.as_view({'get': 'list', 'post': 'create'}), name='category-list-create'),
+    path('categories/<int:pk>/', CategoryViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='category-detail'),
+    path('categories/<int:pk>/count_tasks/', CategoryViewSet.as_view({'get': 'count_tasks'}), name='category-count-tasks'),
 ]
+
+
+
