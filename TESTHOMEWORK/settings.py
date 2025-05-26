@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'greetings.apps.GreetingsConfig',
 
-
+    'drf_yasg',
 
 ]
 
