@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -36,3 +39,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])  # хэширование пароля
         user.save()
         return user
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data.update({'user_id': self.user.id, 'username': self.user.username})
+        return data
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer

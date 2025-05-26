@@ -34,9 +34,14 @@ from rest_framework.permissions import IsAuthenticated
 from permissions.owner_permission import IsOwner
 from permissions.permissions import CanGetTasksPermission, CanGetSubTasksPermission
 from rest_framework.permissions import IsAuthenticated
+
+from . import permissions
 from .permissions import IsOwnerOrReadOnly
 
 from .serializers.register_serializer import RegisterSerializer
+
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
 
 
 
@@ -347,3 +352,18 @@ class UserTasksListView(ListAPIView):
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
+
+
+class LogoutView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()  # добавляем refresh токен в blacklist
+            return Response({"detail": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
+        except KeyError:
+            return Response({"error": "Refresh token is required."}, status=status.HTTP_400_BAD_REQUEST)
+        except TokenError:
+            return Response({"error": "Invalid or expired token."}, status=status.HTTP_400_BAD_REQUEST)

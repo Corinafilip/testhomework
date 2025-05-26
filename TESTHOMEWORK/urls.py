@@ -79,6 +79,7 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('register/', RegisterView.as_view(), name='register'),
     path('api/token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
+    path('api/logout/', LogoutView.as_view(), name='auth_logout'),
 
 ]
 
