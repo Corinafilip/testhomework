@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class CategoryManager(models.Manager):
@@ -28,6 +29,8 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     resolved_at = models.DateTimeField(null=True, blank=True)
     deadline = models.DateTimeField(null=True, blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
+
     def __str__(self):
         return f"{self.title} is our task"
 
@@ -60,6 +63,7 @@ class SubTask(models.Model):
     )
     deadline = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subtasks')
 
     def __str__(self):
         return f"{self.title} is our subtask"

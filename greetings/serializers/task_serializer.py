@@ -91,3 +91,11 @@ class TaskOverdueSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
+    class Meta:
+        model = Task
+        fields = ['id', 'title', 'description', 'status', 'owner', 'created_at', 'resolved_at', 'deadline']
+
+

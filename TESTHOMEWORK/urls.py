@@ -54,6 +54,7 @@ urlpatterns = [
     path('categories/<int:pk>/count_tasks/', CategoryViewSet.as_view({'get': 'count_tasks'}), name='category-count-tasks'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('mytasks/', UserTasksListView.as_view(), name='user-tasks'),
 ]
 
 

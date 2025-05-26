@@ -9,7 +9,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
 from rest_framework import status, viewsets
 
-from serializers.task_serializer import TaskCreateSerializer, TaskListSerializer, TaskDetailSerializer, TaskNewSerializer, TaskInProgressSerializer, TaskPendingSerializer, TaskBlockedSerializer, TaskDoneSerializer, TaskOverdueSerializer, SubTaskSerializer
+from serializers.task_serializer import TaskCreateSerializer, TaskListSerializer, TaskDetailSerializer, \
+    TaskNewSerializer, TaskInProgressSerializer, TaskPendingSerializer, TaskBlockedSerializer, TaskDoneSerializer, \
+    TaskOverdueSerializer, SubTaskSerializer, TaskSerializer
 from models import Task, SubTask
 
 from django.utils.timezone import now
@@ -63,11 +65,13 @@ class SubTaskListCreateView(ListCreateAPIView):
 
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['status', 'deadline']
+    filterSet_fields = ['status', 'deadline']
     search_fields = ['title', 'description']
     ordering_fields = ['created_at']
     ordering = ['-created_at']
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class SubTaskDetailView(RetrieveUpdateDestroyAPIView):
     queryset = SubTask.objects.all()
@@ -177,12 +181,14 @@ class TaskListCreateView(ListCreateAPIView):
     serializer_class = TaskCreateSerializer
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['status', 'deadline']
+    filterSet_fields = ['status', 'deadline']
     search_fields = ['title', 'description']
     ordering_fields = ['created_at']
     ordering = ['-created_at']
     permission_classes = [IsAuthenticated, CanGetTasksPermission]
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class TaskDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
@@ -315,5 +321,10 @@ class ProtectedView(APIView):
             return [IsAuthenticated(), IsOwner()]
         return [IsAuthenticated()]
 
+class UserTasksListView(ListAPIView):
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        return Task.objects.filter(owner=self.request.user)
 

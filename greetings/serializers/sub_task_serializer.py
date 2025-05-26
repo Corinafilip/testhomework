@@ -5,6 +5,8 @@ from greetings.models import SubTask
 
 # (title, description, task, status, deadline, created_at(not necessary))
 class SubTaskSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
         model = SubTask
         fields = '__all__'
@@ -20,6 +22,5 @@ class SubTaskCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = None
         fields = ('title', 'description','deadline', 'created_at')
-
 
 
