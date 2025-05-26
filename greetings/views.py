@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.core.serializers import serialize
 from django.shortcuts import render
 
@@ -7,7 +9,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from rest_framework.decorators import api_view, action
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, generics
 
 from serializers.task_serializer import TaskCreateSerializer, TaskListSerializer, TaskDetailSerializer, \
     TaskNewSerializer, TaskInProgressSerializer, TaskPendingSerializer, TaskBlockedSerializer, TaskDoneSerializer, \
@@ -33,6 +35,9 @@ from permissions.owner_permission import IsOwner
 from permissions.permissions import CanGetTasksPermission, CanGetSubTasksPermission
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsOwnerOrReadOnly
+
+from .serializers.register_serializer import RegisterSerializer
+
 
 
 def greetings(request):
@@ -340,3 +345,5 @@ class UserTasksListView(ListAPIView):
     def get_queryset(self):
         return Task.objects.filter(owner=self.request.user)
 
+class RegisterView(generics.CreateAPIView):
+    serializer_class = RegisterSerializer
