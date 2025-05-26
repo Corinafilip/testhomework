@@ -7,3 +7,4 @@ class CanGetTasksPermission(BasePermission):
 class CanGetSubTasksPermission(BasePermission):
     def has_permission(self, request, view):
         return request.user.has_perm('greetings.can_get_subtasks')
+
