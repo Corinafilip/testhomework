@@ -20,6 +20,7 @@ from greetings.views import *
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+    TokenBlacklistView,
 )
 
 from greetings.serializers.task_serializer import TaskCreateSerializer
@@ -77,6 +78,7 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('register/', RegisterView.as_view(), name='register'),
+    path('api/token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
 
 ]
 
