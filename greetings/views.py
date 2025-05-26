@@ -32,6 +32,7 @@ from rest_framework.permissions import IsAuthenticated
 from permissions.owner_permission import IsOwner
 from permissions.permissions import CanGetTasksPermission, CanGetSubTasksPermission
 from rest_framework.permissions import IsAuthenticated
+from .permissions import IsOwnerOrReadOnly
 
 
 def greetings(request):
@@ -77,6 +78,7 @@ class SubTaskDetailView(RetrieveUpdateDestroyAPIView):
     queryset = SubTask.objects.all()
     serializer_class = SubTaskSerializer
     lookup_field = 'pk'
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
 class SubTaskDetailUpdateDeleteView(APIView):
     def get(self, request, pk):
@@ -179,6 +181,7 @@ class FilteredSubTaskListView(ListAPIView):
 class TaskListCreateView(ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
+    permission_classes = [IsAuthenticated]
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterSet_fields = ['status', 'deadline']
@@ -194,6 +197,15 @@ class TaskDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskDetailSerializer
     lookup_field = 'pk'
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 @api_view(['POST'])
 def create_task(request: Request):
